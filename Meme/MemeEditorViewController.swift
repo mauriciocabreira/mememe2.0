@@ -10,7 +10,7 @@ import UIKit
 
 
 
-class ViewController: UIViewController, UINavigationControllerDelegate {
+class MemeEditorViewController: UIViewController, UINavigationControllerDelegate {
   
   // MARK: Properties
   
@@ -176,15 +176,24 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
   
   func keyboardWillShow(_ notification:Notification) {
     
+    print("frame origin: \(view.frame.origin.y)")
+    print("kb height: \(getKeyboardHeight(notification))")
+    
+      
     if bottomText.isFirstResponder {
       view.frame.origin.y = 0 - getKeyboardHeight(notification)
+    }
+    
+    //Changes after reviewer review to not hide the TOP field on the iPhone 5s, landscape mode
+    if topText.isFirstResponder {
+      view.frame.origin.y = -15
     }
     
   }
   
   func keyboardWillHide(_ notification:Notification) {
     
-    if bottomText.isFirstResponder {
+    if bottomText.isFirstResponder || topText.isFirstResponder {
       view.frame.origin.y = 0
     }
   }
@@ -209,10 +218,8 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
     //self.navigationController?.setToolbarHidden(true, animated: true)
     
     
-    //Meme2.0 - hide bras to generate meme
+    //Meme2.0 - hide bars to generate meme
     displayToolbar(false)
-    //toolBar.isHidden = true
-    //navigationBar.isHidden = true
     
     
     // Render view to an image
@@ -228,9 +235,6 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
     //Meme2.0 - put bars back
     displayToolbar(true)
     
-    //toolBar.isHidden = false
-    //navigationBar.isHidden = false
-
     return memedImage
   }
   
@@ -246,7 +250,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
 
 //MARK: Image related functions
 
-extension ViewController: UIImagePickerControllerDelegate {
+extension MemeEditorViewController: UIImagePickerControllerDelegate {
   
   func pickAnImageFrom(_ source: ImageSource) {
     
@@ -278,7 +282,7 @@ extension ViewController: UIImagePickerControllerDelegate {
 
 
 // MARK: UITextFieldDelegate delegates
-extension ViewController: UITextFieldDelegate {
+extension MemeEditorViewController: UITextFieldDelegate {
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
     
@@ -302,6 +306,7 @@ extension ViewController: UITextFieldDelegate {
   }
   
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    
     //Dismiss the keyboard
     textField.resignFirstResponder()
     
@@ -319,8 +324,8 @@ extension ViewController: UITextFieldDelegate {
   }
   
   func displayToolbar(_ show: Bool){
+    
     if !show {
-      
       toolBar.isHidden = true
       navigationBar.isHidden = true
     } else {

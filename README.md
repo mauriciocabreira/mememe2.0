@@ -1,1 +1,1 @@
-Mememe v2.0 project - udacity iOS nanodegree
+Mememe v2.0 project - second review
