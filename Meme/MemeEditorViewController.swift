@@ -157,15 +157,8 @@ class MemeEditorViewController: UIViewController, UINavigationControllerDelegate
   func resetStatus() {
     
     // Reset Labels to original state
-    configureTextField(topText, "TOP")
-    configureTextField(bottomText, "BOTTOM")
-    
-    topText.defaultTextAttributes = memeTextAttributes
-    bottomText.defaultTextAttributes = memeTextAttributes
-    topText.textAlignment = .center
-    bottomText.textAlignment = .center
-    clearTopField = true
-    clearBottomField = true
+    configureTextField(.topField, topText, "TOP")
+    configureTextField(.bottomField, bottomText, "BOTTOM")
     
     //Disable share button
     shareButton.isEnabled = false
@@ -314,8 +307,20 @@ extension MemeEditorViewController: UITextFieldDelegate {
   }
   
   
-  func configureTextField(_ textField: UITextField, _ text: String) {
+  func configureTextField(_ fieldPosition: Field, _ textField: UITextField, _ text: String) {
     textField.text = text
+    
+    switch fieldPosition {
+    case .topField:
+      topText.defaultTextAttributes = memeTextAttributes
+      topText.textAlignment = .center
+      clearTopField = true
+      
+    case .bottomField:
+      bottomText.defaultTextAttributes = memeTextAttributes
+      bottomText.textAlignment = .center
+      clearBottomField = true
+    }
   }
   
   func cleanTextField(_ textField: UITextField) {
@@ -325,14 +330,10 @@ extension MemeEditorViewController: UITextFieldDelegate {
   
   func displayToolbar(_ show: Bool){
     
-    if !show {
-      toolBar.isHidden = true
-      navigationBar.isHidden = true
-    } else {
-      navigationBar.isHidden = false
-      toolBar.isHidden = false
+    //changed after reviewer suggestion. Thanks :)
+    toolBar.isHidden = !show
+    navigationBar.isHidden = !show
     }
-  }
 
 }
 

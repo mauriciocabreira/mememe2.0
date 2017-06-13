@@ -14,6 +14,7 @@ class MemeCollectionViewController: UICollectionViewController {
   
   // MARK: Properties
   
+  
   @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
   
   
@@ -78,4 +79,19 @@ class MemeCollectionViewController: UICollectionViewController {
     
   }
   
+}
+
+
+
+extension MemeCollectionViewController : UICollectionViewDelegateFlowLayout
+{
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
+  {
+    //After reviewer notes to adjust item size that was too big.
+    return CGSize(width: 75, height: 75)
+    
+  }
+  
+
+ 
 }
